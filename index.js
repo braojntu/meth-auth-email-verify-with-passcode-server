@@ -1,11 +1,18 @@
-const express = require('express');
+const express = require("express");
+require("dotenv").config();
+require("./db");
+const userRouter = require("./routes/user");
+
 const app = express();
-const PORT = 5000
+app.use(express.json());
+const PORT = process.env.PORT || 5000;
 
-app.get('/',(req,res)=>{
-    res.send('<h1>MERN Auth Server Default Route</h1>')
-})
+app.get("/", (req, res) => {
+  res.send("<h1>MERN Auth Server Home Route</h1>");
+});
 
-app.listen(PORT,()=>{
-    console.log("Node Express Server Running on Port: "+PORT)
-})
+app.use("/api/user", userRouter);
+
+app.listen(PORT, () => {
+  console.log("Node Express Server Running on Port: " + PORT);
+});
