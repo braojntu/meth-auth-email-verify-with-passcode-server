@@ -120,11 +120,12 @@ exports.forgotPassword = async (req, res) => {
   const randomtoken = await createRandomBytes();
   const resetToken = new ResetToken({owner: user._id, token: randomtoken});
   await resetToken.save();
+  // console.log("reset token data: "+resetToken)
 
   mailTransport().sendMail({
     from: "emailreset@email.com",
     to: user.email,
-    subject: "Password Reset Mail",
+    subject: "Password Reset Link",
     html: passwordResetTemplate(
       `http://localhost:3000/reset-password?token=${randomtoken}&id=${user._id}`
     ),
